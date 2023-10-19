@@ -83,7 +83,7 @@ const SPDashboard = (rating) => {
           alt="profile-avatar"
         />
         <div>
-          <div className="sp-name">Yohan Buddhika</div>
+          <div className="sp-name">Tharushka Madusara</div>
           <Rating value="3.5" precision={0.1} readOnly />
           <div className="sp-description">
             I am an electrician based in Moratuwa with 10 years of experience.
