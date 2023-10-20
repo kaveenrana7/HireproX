@@ -52,9 +52,10 @@ export default function Login() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "#FFCF70" }}>
+          {/* <Avatar sx={{ m: 1, bgcolor: "#FFCF70" }}>
             <LockOutlinedIcon style={{color: "black"}} />
-          </Avatar>
+          </Avatar> */}
+          <img src={process.env.PUBLIC_URL + '/logo.png'} alt="Example" />
           <Typography component="h1" variant="h5">
             Log in
           </Typography>

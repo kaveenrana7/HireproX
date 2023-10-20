@@ -28,6 +28,7 @@ import CSRComplaint from "./components/CSRComplaints/Complaint";
 import ComplaintTaskDetails from "./components/Complaints/ComplaintTaskDetails";
 import CSRComplaintTaskDetails from "./components/CSRComplaints/CSRComplaintTaskDetails";
 import Login from "./components/Login/Login";
+import CSRSPApprove from "./components/CSRSP/CSRSP";
 
 function App() {
   return (
@@ -69,6 +70,7 @@ function App() {
           <Route exact path="/csrcustomer" element={<CSRCustomer />} />
           <Route exact path="/csrcategory" element={<CSRCategory />} />
           <Route exact path="/csraddcategory" element={<CSRAddCategory />} />
+          <Route exact path="/csrspapprove" element={<CSRSPApprove />} />
         </Routes>
         <Footer />
       </div>

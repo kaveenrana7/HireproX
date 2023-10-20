@@ -116,7 +116,23 @@ const AddCategory = () => {
         }}
         className="fade-in"
       >
-        Contact Development Team..
+              <Typography variant="h6">Add New Category</Typography>
+        <TextField
+          label="Add Category Details"
+          fullWidth
+          value={categoryName}
+          onChange={(e) => setCategoryName(e.target.value)}
+          margin="normal"
+        />
+        <p>Contact the Developer</p>
+          <Button
+            variant="contained"
+            component="span"
+            color="primary"
+            style={{ backgroundColor: "#FFCF70", color: "black" }}
+          >
+            Send Message
+          </Button>
       </Paper>
     </div>
   );

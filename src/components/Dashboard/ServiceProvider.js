@@ -245,7 +245,7 @@ const ServiceProvider = () => {
       >
         <DialogTitle>Confirm Restriction</DialogTitle>
         <DialogContent>
-          Are you sure you want to restrict this user?
+          Are you sure you want to restrict/unrestrict this user?
         </DialogContent>
         <DialogActions>
           <Button onClick={closeConfirmationDialog} color="primary">

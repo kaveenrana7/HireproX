@@ -5,6 +5,8 @@ import Card2 from "./Card-2";
 import DashNavbar from "./DashNavbar";
 import { Switch } from "@mui/material";
 
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
+
 import {
   Table,
   TableBody,
@@ -66,6 +68,33 @@ const CSRServiceProvider = () => {
     setSearchQuery(e.target.value);
   };
 
+   // Define state for the confirmation dialog
+   const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
+   const [selectedServiceProviderIndex, setSelectedServiceProviderIndex] =
+     useState(null);
+ 
+   // Function to open the confirmation dialog
+   const openConfirmationDialog = (index) => {
+     setSelectedServiceProviderIndex(index);
+     setConfirmationDialogOpen(true);
+   };
+ 
+   // Function to close the confirmation dialog
+   const closeConfirmationDialog = () => {
+     setSelectedServiceProviderIndex(null);
+     setConfirmationDialogOpen(false);
+   };
+ 
+   // Function to handle the confirmation and restrict user
+   const handleConfirmRestrict = () => {
+     if (selectedServiceProviderIndex !== null) {
+       // Handle the restriction here (update state, send a request to the server, etc.)
+       handleAvailabilityChange(selectedServiceProviderIndex);
+       closeConfirmationDialog();
+     }
+   };
+ 
+
   // // Filter service providers based on the search query
   // const filteredServiceProviders = serviceProviders.filter((serviceProvider) =>
   //   serviceProvider.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -107,6 +136,17 @@ const CSRServiceProvider = () => {
                 </ld>
               </ld>
               <ld>Category Review</ld>
+            </li>
+          </Link>
+
+          <Link to="/CSRSPApprove">
+            <li>
+              <ld>
+                <ld>
+                  <img src="dashboard--icon3.png" alt="icon" />
+                </ld>
+              </ld>
+              <ld>Service Providers</ld>
             </li>
           </Link>
         </ul>
@@ -185,7 +225,7 @@ const CSRServiceProvider = () => {
                   <TableCell>
                     <Switch
                       checked={serviceProvider.restrict}
-                      onChange={() => handleAvailabilityChange(index)}
+                      onChange={() => openConfirmationDialog (index)}
                       color="secondary"
                     />
                   </TableCell>
@@ -195,6 +235,26 @@ const CSRServiceProvider = () => {
           </Table>
         </TableContainer>
       </div>
+      <Dialog
+        open={isConfirmationDialogOpen}
+        onClose={closeConfirmationDialog}
+        fullWidth
+        maxWidth="xs"
+      >
+        <DialogTitle>Confirm Restriction</DialogTitle>
+        <DialogContent>
+          Are you sure you want to restrict/unrestrict this user?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeConfirmationDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmRestrict} color="primary">
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </div>
   );
 };

@@ -65,6 +65,17 @@ const CSRComplaint = () => {
               <ld>Category Review</ld>
             </li>
           </Link>
+
+          <Link to="/CSRSPApprove">
+            <li>
+              <ld>
+                <ld>
+                  <img src="dashboard--icon3.png" alt="icon" />
+                </ld>
+              </ld>
+              <ld>Service Providers</ld>
+            </li>
+          </Link>
         </ul>
       </div>
       <div className="dashboard-navbar">
