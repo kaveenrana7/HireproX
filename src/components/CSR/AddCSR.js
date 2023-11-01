@@ -3,13 +3,41 @@ import { Link } from "react-router-dom";
 import "./index.css";
 import CSRNavbar from "./CSRNavbar";
 import { Paper, TextField, Button, Avatar } from "@mui/material";
+
+
+async function sendFormData(formData) {
+  try {
+    // console.log("success");
+      const response = await fetch('http://localhost:3512/add-csr', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+          
+      });
+
+      const result = await response.json();
+      console.log(result);
+
+      if (response.status === 200) {
+          alert('Data sent successfully');
+      } else {
+          alert('Error sending data');
+      }
+  } catch (error) {
+      console.error('There was an error sending the data:', error);
+  }
+}
+
+
 const AddCSR = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
+   
     email: "",
     phone: "",
-    image: null, // You can store the uploaded image file here
+    password:""
   });
 
   const handleInputChange = (e) => {
@@ -20,16 +48,12 @@ const AddCSR = () => {
     });
   };
 
-  const handleImageChange = (e) => {
-    const imageFile = e.target.files[0];
-    setFormData({
-      ...formData,
-      image: imageFile,
-    });
-  };
+
+ 
 
   const handleAdd = () => {
     // Handle the form submission here, e.g., send the formData to the server
+    sendFormData(formData)
     console.log(formData);
   };
 
@@ -37,11 +61,11 @@ const AddCSR = () => {
     // Handle discarding the form data or navigating to another page
     // Reset the form data if needed
     setFormData({
-      firstName: "",
-      lastName: "",
+      name: "",
       email: "",
+      password: "",
       phone: "",
-      image: null,
+      
     });
   };
 
@@ -115,18 +139,10 @@ const AddCSR = () => {
       >
         <h2>Add CSR</h2>
         <TextField
-          label="First Name"
-          name="firstName"
+          label="Name"
+          name="name"
           fullWidth
-          value={formData.firstName}
-          onChange={handleInputChange}
-          margin="normal"
-        />
-        <TextField
-          label="Last Name"
-          name="lastName"
-          fullWidth
-          value={formData.lastName}
+          value={formData.name}
           onChange={handleInputChange}
           margin="normal"
         />
@@ -146,19 +162,16 @@ const AddCSR = () => {
           onChange={handleInputChange}
           margin="normal"
         />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          style={{ margin: "20px 0" }}
+        <TextField
+          label="Password"
+          name="password"
+          fullWidth
+          value={formData.password}
+          onChange={handleInputChange}
+          margin="normal"
         />
-        {formData.image && (
-          <Avatar
-            src={URL.createObjectURL(formData.image)}
-            alt="Uploaded Image"
-            style={{ width: "100px", height: "100px" }}
-          />
-        )}
+     
+      
         <div
           style={{
             marginTop: "20px",

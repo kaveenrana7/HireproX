@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+
 import { Link } from "react-router-dom";
 import "./index.css";
 import Card from "./Card";
@@ -8,6 +10,46 @@ import Stat1 from "./Stat1";
 import Stat2 from "./Stat2";
 
 const Dashboard = () => {
+
+  const [amount, setAmount] = useState(0);
+  const [noOfCustomers, setNoOfCustomers] = useState(0);
+  const [noOfServiceProvider, setnoOfServiceProvider] = useState(0);
+  const [categoryCount, setcategoryCount] = useState(0);
+  const [taskbymonth, settaskbymonth] = useState(0);
+  useEffect(() => {
+    // console.log("noOfCustomers")
+    // Fetch amount
+    fetch("http://localhost:3512/getserviceprovidercount")
+      .then(response => response.json())
+      .then(data => setnoOfServiceProvider(Number(data.serviceprovidercount)))
+      .catch(error => console.error("Error fetching amount:", error));
+
+
+    fetch("http://localhost:3512/getrevenue")
+      .then(response => response.json())
+      .then(data => setAmount(Number(data.total_amount)))
+      .catch(error => console.error("Error fetching amount:", error));
+
+
+    // Fetch number of customers
+    fetch("http://localhost:3512/getcustomercount")
+      .then(response => response.json())
+      .then(data => setNoOfCustomers(Number(data.customercount)))
+      .catch(error => console.error("Error fetching number of customers:", error));
+
+    fetch("http://localhost:3512/getCompletedGroupBy")
+      .then(response => response.json())
+      .then(data => setcategoryCount((data)))
+      .catch(error => console.error("Error fetching number of customers:", error));
+
+    fetch("http://localhost:3512/gettasksbymonth")
+      .then(response => response.json())
+      .then(data => settaskbymonth((data)))
+      .catch(error => console.error("Error fetching number of customers:", error));
+
+  }, [categoryCount,taskbymonth]);
+  // console.log(categoryCount["Lawn Mowing"])
+
   return (
     <div className="dashboard">
       <div className="slideBar">
@@ -80,8 +122,8 @@ const Dashboard = () => {
       <div className="cards fade-in">
         <Card
           icon="income-icon.png"
-          heading="Income"
-          amount="75000"
+          heading="Revenue"
+          amount={amount}
           percentage="10%"
           icon2="up.png"
           money="true"
@@ -90,9 +132,9 @@ const Dashboard = () => {
         />
         <Card
           icon="profit-icon.png"
-          heading="Profit"
-          amount="51250"
-          percentage="10%"
+          heading="Total Commision"
+          amount={amount * 10 / 100}
+
           icon2="up.png"
           money="true"
           dif="+100"
@@ -101,7 +143,7 @@ const Dashboard = () => {
         <Card
           icon="rsp-icon.png"
           heading="Registered Service Providers"
-          amount="31500"
+          amount={noOfServiceProvider}
           percentage="10%"
           icon2="up.png"
           money="false"
@@ -111,7 +153,7 @@ const Dashboard = () => {
         <Card
           icon="customers-icon.png"
           heading="Customers"
-          amount="11300"
+          amount={noOfCustomers}
           percentage="10%"
           money="false"
           icon2="up.png"
@@ -120,8 +162,8 @@ const Dashboard = () => {
         />
       </div>
       <div className="stat fade-in">
-        <Stat1 />
-        <Stat2 />
+        <Stat1 lawnmoving={categoryCount["Lawn Mowing"]} cleaning={categoryCount["Cleaning"]} hairdressing={categoryCount["Hair Dressing"]} />
+        <Stat2 jan={Number(taskbymonth["1"])} feb={Number(taskbymonth["2"])}  mar={Number(taskbymonth["3"])} apr={Number(taskbymonth["4"])} may={Number(taskbymonth["5"])} jun={Number(taskbymonth["6"])} jul={Number(taskbymonth["7"])} aug={Number(taskbymonth["8"])} sep={Number(taskbymonth["9"])} oct={Number(taskbymonth["10"])} nov={Number(taskbymonth["11"])} dec={Number(taskbymonth["12"])} />
       </div>
     </div>
   );
