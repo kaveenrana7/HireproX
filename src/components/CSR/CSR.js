@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
 import CSRNavbar from "./CSRNavbar";
@@ -20,51 +20,63 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete"; // Import the DeleteIcon
 
 const CSR = () => {
-  const [tableData, setTableData] = useState([
-    {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      contact: "+1234567890",
-      status: "Active",
-    },
-    {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      contact: "+1234567890",
-      status: "Active",
-    },
-    {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      contact: "+1234567890",
-      status: "Active",
-    },
-    {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      contact: "+1234567890",
-      status: "Active",
-    },
-    {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      contact: "+1234567890",
-      status: "Active",
-    },
-    {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      contact: "+1234567890",
-      status: "Active",
-    },
-    {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      contact: "+1234567890",
-      status: "Active",
-    },
-    // Add more data as needed
-  ]);
+
+  const [tableData, setTableData] =useState([])
+  useEffect(() => {
+    // console.log("noOfCustomers")
+    // Fetch amount
+    fetch("http://localhost:3512/getcsr")
+      .then(response => response.json())
+      .then(data => setTableData(data))
+      .catch(error => console.error("Error fetching amount:", error));
+
+
+  }, []);
+  // const [tableData, setTableData] = useState([
+  //   {
+  //     name: "John Doe",
+  //     email: "john.doe@example.com",
+  //     contact: "+1234567890",
+  //     status: "Active",
+  //   },
+  //   {
+  //     name: "John Doe",
+  //     email: "john.doe@example.com",
+  //     contact: "+1234567890",
+  //     status: "Active",
+  //   },
+  //   {
+  //     name: "John Doe",
+  //     email: "john.doe@example.com",
+  //     contact: "+1234567890",
+  //     status: "Active",
+  //   },
+  //   {
+  //     name: "John Doe",
+  //     email: "john.doe@example.com",
+  //     contact: "+1234567890",
+  //     status: "Active",
+  //   },
+  //   {
+  //     name: "John Doe",
+  //     email: "john.doe@example.com",
+  //     contact: "+1234567890",
+  //     status: "Active",
+  //   },
+  //   {
+  //     name: "John Doe",
+  //     email: "john.doe@example.com",
+  //     contact: "+1234567890",
+  //     status: "Active",
+  //   },
+  //   {
+  //     name: "John Doe",
+  //     email: "john.doe@example.com",
+  //     contact: "+1234567890",
+  //     status: "Active",
+  //   },
+  //   // Add more data as needed
+  // ]);
 
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
   const [deleteRowIndex, setDeleteRowIndex] = useState(null);
@@ -197,7 +209,7 @@ const CSR = () => {
                   {row.name}
                 </TableCell>
                 <TableCell>{row.email}</TableCell>
-                <TableCell>{row.contact}</TableCell>
+                <TableCell>{row.phone}</TableCell>
                 <TableCell
                   className={
                     row.status === "Active" ? "active-status" : "offline-status"
