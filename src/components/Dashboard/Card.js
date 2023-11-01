@@ -22,7 +22,7 @@ const Card = ({
         {money === "true" ? "LKR " : ""}
         <CountUp start={0} end={parseFloat(amount)} duration={2} />
       </div>
-      <div className="card-footer">
+      {/* <div className="card-footer">
         <div className="card-percentage">{percentage}</div>
         <img src={icon2} alt="gain" />
         <div className="card-dif">
@@ -30,7 +30,7 @@ const Card = ({
           <CountUp start={0} end={parseFloat(dif)} duration={1} />
         </div>
         <div className="card-day">{date}</div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -2,20 +2,27 @@ import React from "react";
 import { ResponsiveBar } from "@nivo/bar";
 import "./index.css";
 
-const Stat2 = () => {
+const Stat2 = ({jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec}) => {
   const data = [
-    { month: "January", category: "Revenue", value: 1000 },
-    { month: "February", category: "Revenue", value: 1200 },
-    { month: "March", category: "Revenue", value: 1500 },
-    { month: "April", category: "Revenue", value: 1300 },
-    { month: "May", category: "Revenue", value: 1600 },
+    { month: "Jan", category: "Revenue", value: jan },
+    { month: "Feb", category: "Revenue", value: feb },
+    { month: "Mar", category: "Revenue", value: mar },
+    { month: "Apr", category: "Revenue", value: apr },
+    { month: "May", category: "Revenue", value: may },
+    { month: "Jun", category: "Revenue", value: jun },
+    { month: "Jul", category: "Revenue", value: jul },
+    { month: "Aug", category: "Revenue", value: aug },
+    { month: "Sep", category: "Revenue", value: sep },
+    { month: "Oct", category: "Revenue", value: oct },
+    { month: "Nov", category: "Revenue", value: nov },
+    { month: "Dec", category: "Revenue", value: dec }
     // Add data for the remaining months
   ];
 
   return (
     <div className="stat2">
       <div className="stat-heading">Statistics</div>
-      <div className="stat-subheading">Revenue</div>
+      <div className="stat-subheading">Tasks By Month</div>
       <ResponsiveBar
         height={250}
         data={data}

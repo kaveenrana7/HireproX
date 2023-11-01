@@ -176,8 +176,11 @@ const CSR = () => {
               <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Contact</TableCell>
+
               <TableCell>Status</TableCell>
               <TableCell>Delete</TableCell>
+              <TableCell>Password</TableCell>
+
             </TableRow>
           </TableHead>
           <TableBody>
