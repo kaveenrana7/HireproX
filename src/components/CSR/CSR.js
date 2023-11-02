@@ -1,7 +1,9 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
 import CSRNavbar from "./CSRNavbar";
+import Switch from '@mui/material/Switch';
+
 import {
   Table,
   TableHead,
@@ -20,8 +22,13 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete"; // Import the DeleteIcon
 
 const CSR = () => {
-
-  const [tableData, setTableData] =useState([])
+  const [showPasswordIndex, setShowPasswordIndex] = useState(null);
+  const handleStatusToggle = (index) => {
+    const updatedData = [...tableData];
+    updatedData[index].status = updatedData[index].status === "1" ? "0" : "1";
+    setTableData(updatedData);
+  };
+  const [tableData, setTableData] = useState([])
   useEffect(() => {
     // console.log("noOfCustomers")
     // Fetch amount
@@ -32,51 +39,7 @@ const CSR = () => {
 
 
   }, []);
-  // const [tableData, setTableData] = useState([
-  //   {
-  //     name: "John Doe",
-  //     email: "john.doe@example.com",
-  //     contact: "+1234567890",
-  //     status: "Active",
-  //   },
-  //   {
-  //     name: "John Doe",
-  //     email: "john.doe@example.com",
-  //     contact: "+1234567890",
-  //     status: "Active",
-  //   },
-  //   {
-  //     name: "John Doe",
-  //     email: "john.doe@example.com",
-  //     contact: "+1234567890",
-  //     status: "Active",
-  //   },
-  //   {
-  //     name: "John Doe",
-  //     email: "john.doe@example.com",
-  //     contact: "+1234567890",
-  //     status: "Active",
-  //   },
-  //   {
-  //     name: "John Doe",
-  //     email: "john.doe@example.com",
-  //     contact: "+1234567890",
-  //     status: "Active",
-  //   },
-  //   {
-  //     name: "John Doe",
-  //     email: "john.doe@example.com",
-  //     contact: "+1234567890",
-  //     status: "Active",
-  //   },
-  //   {
-  //     name: "John Doe",
-  //     email: "john.doe@example.com",
-  //     contact: "+1234567890",
-  //     status: "Active",
-  //   },
-  //   // Add more data as needed
-  // ]);
+ 
 
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
   const [deleteRowIndex, setDeleteRowIndex] = useState(null);
@@ -188,11 +151,9 @@ const CSR = () => {
               <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Contact</TableCell>
-
-              <TableCell>Status</TableCell>
-              <TableCell>Delete</TableCell>
               <TableCell>Password</TableCell>
-
+              <TableCell>Status</TableCell>
+              <TableCell>Disable</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -210,27 +171,42 @@ const CSR = () => {
                 </TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{row.phone}</TableCell>
+                <TableCell>
+                  {index === showPasswordIndex ? row.passwordhash : "****"}
+                  <Button
+                    size="small"
+                    style={{ marginLeft: '10px' }}
+                    onClick={() => {
+                      if (showPasswordIndex === index) {
+                        setShowPasswordIndex(null); // Hide password if it's already showing
+                      } else {
+                        setShowPasswordIndex(index); // Show password for the clicked row
+                      }
+                    }}>
+                    {index === showPasswordIndex ? "Hide" : "Show"}
+                  </Button>
+                </TableCell>
+
                 <TableCell
                   className={
-                    row.status === "Active" ? "active-status" : "offline-status"
+                    row.status === "1" ? "active-status" : "offline-status"
                   }
                 >
                   <span
                     className={
-                      row.status === "Active"
+                      row.status === "1"
                         ? "status-cell-active"
                         : "status-cell-offline"
                     }
                   />
-                  {row.status}
+                  {row.status === "1" ? "Active" : "Disabled"}
                 </TableCell>
                 <TableCell>
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => handleDeleteClick(index)}
-                  >
-                    <DeleteIcon color="error" />
-                  </IconButton>
+                  <Switch
+                    checked={row.status === "1"}
+                    onChange={() => handleStatusToggle(index)}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                  />
                 </TableCell>
               </TableRow>
             ))}
