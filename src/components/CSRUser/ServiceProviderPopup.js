@@ -1,30 +1,71 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import { Button } from "@mantine/core";
 import "./index.css";
+import { storage, firebaseApp } from '../../firebase';
+import { ref, getDownloadURL } from 'firebase/storage';
+
+async function getProfileImage(id) {
+    try {
+        const storageRef = ref(storage, `serviceProvider/profilePicture/${id}.png`);
+        const url = await getDownloadURL(storageRef);
+        console.log(url);
+        return url;
+    } catch (error) {
+        console.error('Error getting image:', error);
+        return null;
+    }
+}
+
+async function getProofImage(id) {
+    try {
+        const storageRef = ref(storage, `/serviceProvider/request/${id}.png`);
+        const url = await getDownloadURL(storageRef);
+        console.log(url);
+        return url;
+    } catch (error) {
+        console.error('Error getting image:', error);
+        return null;
+    }
+}
 
 const ServiceProviderPopup = ({ serviceProvider, onClose, onAccept, onReject }) => {
+    const [imageSrc, setImageSrc] = useState(null);
+    const [proofImageSrc, setProofImageSrc] = useState(null);
+
+    useEffect(() => {
+        const fetchImage = async () => {
+            const url = await getProfileImage(serviceProvider.providerid);
+            setImageSrc(url);
+        };
+        fetchImage();
+    }, [serviceProvider.providerid]);
+
+    useEffect(() => {
+        const fetchImage = async () => {
+            const url = await getProofImage(serviceProvider.id);
+            setProofImageSrc(url);
+        };
+        fetchImage();
+    }, [serviceProvider.id]);
+
     return (
+        
         <div className="popup">
 
             <h1>Category Review Application</h1>
 
             <h2>{serviceProvider.name}</h2>
-            <img src={serviceProvider.image} alt="service provider" />
+            <img src={imageSrc} style={{borderRadius: '50% 50%', height: '150px'}} alt="service provider" />
 
-            <p>Request Time: {serviceProvider.timestamp}</p>
             <p>Email: {serviceProvider.email}</p>
-            <p>Mobile: {serviceProvider.mobile}</p>
+            <p>Mobile: {serviceProvider.contact}</p>
 
             <p>Requesting Category: </p>
-            <p>{serviceProvider.requestingcategories}</p>
+            <p>{serviceProvider.category}</p>
 
             <p>Category Proofs</p>
             <div className="proofofservice">
-                <img src={serviceProvider.proofofcategory1} alt="Category Proof" />
-                <img src={serviceProvider.proofofcategory2} alt="Category Proof" />
-                <img src={serviceProvider.proofofcategory3} alt="Category Proof" />
-                <img src={serviceProvider.proofofcategory4} alt="Category Proof" />
-                <img src={serviceProvider.proofofcategory5} alt="Category Proof" />
+                <img src={proofImageSrc} alt="Category Proof" />
             </div>
 
             <br/>

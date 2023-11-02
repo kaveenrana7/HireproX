@@ -1,13 +1,79 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Button } from "@mantine/core";
 import "./index.css";
+import { storage, firebaseApp } from '../../firebase';
+import { ref, getDownloadURL } from 'firebase/storage';
+
+async function getProfileImage(id) {
+    try {
+        const storageRef = ref(storage, `serviceProvider/profilePicture/${id}.png`);
+        const url = await getDownloadURL(storageRef);
+        console.log(url);
+        return url;
+    } catch (error) {
+        console.error('Error getting image:', error);
+        return null;
+    }
+}
+
+async function getDlImage(id) {
+    try {
+        const storageRef = ref(storage, `/serviceProvider/drivingLicense/${id}.png`);
+        const url = await getDownloadURL(storageRef);
+        console.log(url);
+        return url;
+    } catch (error) {
+        console.error('Error getting image:', error);
+        return null;
+    }
+}
+
+async function getProofImage(id) {
+    try {
+        const storageRef = ref(storage, `/serviceProvider/proofs/${id}.png`);
+        const url = await getDownloadURL(storageRef);
+        console.log(url);
+        return url;
+    } catch (error) {
+        console.error('Error getting image:', error);
+        return null;
+    }
+}
 
 const ServiceProviderPopup = ({ serviceProvider, onClose, onAccept, onReject }) => {
+    const [imageSrc, setImageSrc] = useState(null);
+    const [proofImageSrc, setProofImageSrc] = useState(null);
+    const [idImageSrc, setIdImageSrc] = useState(null);
+
+    useEffect(() => {
+        const fetchImage = async () => {
+            const url = await getProfileImage(serviceProvider.providerid);
+            setImageSrc(url);
+        };
+        fetchImage();
+    }, [serviceProvider.providerid]);
+
+    useEffect(() => {
+        const fetchImage = async () => {
+            const url = await getProofImage(serviceProvider.id);
+            setProofImageSrc(url);
+        };
+        fetchImage();
+    }, [serviceProvider.id]);
+
+    useEffect(() => {
+        const fetchImage = async () => {
+            const url = await getDlImage(serviceProvider.id);
+            setIdImageSrc(url);
+        };
+        fetchImage();
+    }, [serviceProvider.id]);
+
     return (
         <div className="popup">
 
             <h2>{serviceProvider.name}</h2>
-            <img src={serviceProvider.image} alt="service provider" />
+            <img src={imageSrc} alt="service provider" />
 
             <p>Timestamp: {serviceProvider.timestamp}</p>
 
@@ -21,11 +87,8 @@ const ServiceProviderPopup = ({ serviceProvider, onClose, onAccept, onReject }) 
 
             <p>Proof of Service</p>
             <div className="proofofservice">
-                <img src={serviceProvider.proofofservice1} alt="proof of service" />
-                <img src={serviceProvider.proofofservice2} alt="proof of service" />
-                <img src={serviceProvider.proofofservice3} alt="proof of service" />
-                <img src={serviceProvider.proofofservice4} alt="proof of service" />
-                <img src={serviceProvider.proofofservice5} alt="proof of service" />
+                <img src={proofImageSrc} alt="proof of service" />
+                <img src={idImageSrc} alt="proof of service" />
             </div>
 
             <div className="buttondiv">
