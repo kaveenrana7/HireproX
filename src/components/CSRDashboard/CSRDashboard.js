@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
 import Card from "./Card";
@@ -8,6 +8,48 @@ import Stat1 from "./Stat1";
 import Stat2 from "./Stat2";
 
 const CSRDashboard = () => {
+
+
+  const [amount, setAmount] = useState(0);
+  const [noOfCustomers, setNoOfCustomers] = useState(0);
+  const [noOfServiceProvider, setnoOfServiceProvider] = useState(0);
+  const [categoryCount, setcategoryCount] = useState(0);
+  const [taskbymonth, settaskbymonth] = useState(0);
+  useEffect(() => {
+    // console.log("noOfCustomers")
+    // Fetch amount
+    fetch("http://localhost:3512/getserviceprovidercount")
+      .then(response => response.json())
+      .then(data => setnoOfServiceProvider(Number(data.serviceprovidercount)))
+      .catch(error => console.error("Error fetching amount:", error));
+
+
+    fetch("http://localhost:3512/getrevenue")
+      .then(response => response.json())
+      .then(data => setAmount(Number(data.total_amount)))
+      .catch(error => console.error("Error fetching amount:", error));
+
+
+    // Fetch number of customers
+    fetch("http://localhost:3512/getcustomercount")
+      .then(response => response.json())
+      .then(data => setNoOfCustomers(Number(data.customercount)))
+      .catch(error => console.error("Error fetching number of customers:", error));
+
+    fetch("http://localhost:3512/getCompletedGroupBy")
+      .then(response => response.json())
+      .then(data => setcategoryCount((data)))
+      .catch(error => console.error("Error fetching number of customers:", error));
+
+    fetch("http://localhost:3512/gettasksbymonth")
+      .then(response => response.json())
+      .then(data => settaskbymonth((data)))
+      .catch(error => console.error("Error fetching number of customers:", error));
+
+  }, []);
+  // console.log(categoryCount["Lawn Mowing"])
+
+
   return (
     <div className="dashboard">
       <div className="slideBar">
@@ -78,8 +120,8 @@ const CSRDashboard = () => {
         </Link>
       </div>
       <div className="stat fade-in">
-        <Stat1 />
-        <Stat2 />
+        <Stat1 lawnmoving={categoryCount["Lawn Mowing"]} cleaning={categoryCount["Cleaning"]} hairdressing={categoryCount["Hair Dressing"]} />
+        <Stat2 jan={Number(taskbymonth["1"])} feb={Number(taskbymonth["2"])}  mar={Number(taskbymonth["3"])} apr={Number(taskbymonth["4"])} may={Number(taskbymonth["5"])} jun={Number(taskbymonth["6"])} jul={Number(taskbymonth["7"])} aug={Number(taskbymonth["8"])} sep={Number(taskbymonth["9"])} oct={Number(taskbymonth["10"])} nov={Number(taskbymonth["11"])} dec={Number(taskbymonth["12"])} />
       </div>
     </div>
   );

@@ -47,7 +47,7 @@ const Dashboard = () => {
       .then(data => settaskbymonth((data)))
       .catch(error => console.error("Error fetching number of customers:", error));
 
-  }, [categoryCount,taskbymonth]);
+  }, []);
   // console.log(categoryCount["Lawn Mowing"])
 
   return (

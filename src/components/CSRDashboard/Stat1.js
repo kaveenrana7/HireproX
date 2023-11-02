@@ -2,26 +2,22 @@ import React from "react";
 import { ResponsivePie } from "@nivo/pie";
 import "./index.css";
 
-const Stat1 = () => {
+const Stat1 = ({hairdressing=0,lawnmoving=0,gardening=0,cleaning=0}) => {
   const data = [
     {
-      id: "Plumbing",
-      value: 120,
+      id: "Hair Dressing",
+      value: hairdressing,
       color: "#FF6384",
     },
     {
       id: "Lawn Mowing",
-      value: 100,
+      value: lawnmoving,
       color: "#36A2EB",
     },
-    {
-      id: "Gardening",
-      value: 24,
-      color: "#FFCE56",
-    },
+  
     {
       id: "Cleaning",
-      value: 17,
+      value: cleaning,
       color: "#4BC0C0",
     },
   ];
